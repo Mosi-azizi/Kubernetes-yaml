@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-end
+  namespace: dev
+  labels:
+    app: myapp
+    type: back-end
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+      type: beck-end
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp
+        type: beck-end
+    spec:
+      containers:
+        - name: nginx-container
+          imagePullPolicy: IfNotPresent
+          image: nginx
+          resources:
+            limits:
+              cpu: 200m
+            requests:
+              cpu: 100m
+  replicas: 6

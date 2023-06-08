@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+  namespace: dev
+  labels:
+    app: myapp
+    type: front-end
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+      type: front-end
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp
+        type: front-end
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 200m
+  replicas: 6
+
+
+$> kubectl autoscale deployment myapp-deployment --cpu-percent=50 --min=2 --max=6 -n dev
+
+kubectl get hpa -n dev
+NAME               REFERENCE                     TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+myapp-deployment   Deployment/myapp-deployment   <unknown>/50%   2         6         3          27s

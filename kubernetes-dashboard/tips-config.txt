@@ -1,0 +1,21 @@
+
+
+Kube version 1.24 and newer
+kubectl -n kubernetes-dashboard create token admin-user
+
+[root@k8s-master01 Dashboard]# k version --short
+Client Version: v1.20.5
+Server Version: v1.20.5
+
+[root@k8s-master01 Dashboard]# kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+OR
+[root@k8s-master01 Dashboard]# kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep kubernetesdashboard-admin-user | awk '{print $1}')
+
+eyJhbGciOiJSUzI1NiIsImtpZCI6Imo4MzhhcG1sQlowb19YbkVOQncxUjZlRWpNWGlwUzdPRXhDZy1TRG9tQVUifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXdzbG16Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkMWZlYzBhMS05NzY3LTQ5ZGYtYTQ2Ny0xODE2YjVkMjc5MDciLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.MaVaFf_Gw4vqm90P_KdnHNZholLWcmUuS36-PxPruOYrpGk9CI4DWf0fBLyop0Con1kNELwse5vXLX0v1gNjtCviasY4_x8esJ8orEi99iMDwcho3IQYdJhFhk5LStTApqy95ZU1ycAYHZE7bDSYoLg2d44PjOnKXdJA_QMKpU9o3GLQfIHSMdoCSQNussUMbjZFli-tcY6qDdNqg21NdqPV3JZlm2qBuYIZSOrLIpY9i-PqwHp51twGy2oA-aaPKmjTe2I3bdDPGNiKb_Am6DuVrufrvkaD9Djj2Kk_mOWgi4FR8PXPgwm9T6bVYVjI7HOL-L5jU0YIL4FM29BPVA
+
+
+
+
+kubectl proxy --address='0.0.0.0' --port=8001 --accept-hosts='.*'
+
+ http://k8dashboard:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.

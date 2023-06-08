@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp2-deployment
+  namespace: dev
+  labels:
+    app: myapp2
+    type: front-end
+spec:
+  selector:
+    matchLabels:
+      app: myapp2
+      type: front-end
+  template:
+    metadata:
+      name: myapp2-pod
+      labels:
+        app: myapp2
+        type: front-end
+    spec:
+      containers:
+        - name: alpine-container
+          image: alpine:3.11.3
+          imagePullPolicy: IfNotPresent
+  replicas: 4
